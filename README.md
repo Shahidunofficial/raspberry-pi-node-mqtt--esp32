@@ -61,4 +61,8 @@ Secure Communication
 
 This project uses SSL/TLS for secuyre communication between the ESP32 and the HiveMQ MQTT broker by hardcoding the Let's encrypt CA certificate
 
-  
+  ![Screenshot 2024-10-16 200501](https://github.com/user-attachments/assets/ae7f2b91-22db-41d7-af3a-846aeb60706a)
+
+![Screenshot 2024-10-16 200420](https://github.com/user-attachments/assets/db07bc89-cdc7-4975-b17a-754f97d56c1c)
+![Screenshot 2024-10-16 195721](https://github.com/user-attachments/assets/153378a9-9423-41cf-9604-64f2b700e9f4)
+![Screenshot 2024-10-16 200514](https://github.com/user-attachments/assets/bf10ad3d-2c05-4ce9-b1a3-9b08ea8b5957)
