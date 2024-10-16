@@ -1,6 +1,6 @@
 #raspberry-pi-node-mqtt--esp32
 An IoT demo project using ESP32 to send sensor data (humidity, temperature) to a Raspberry Pi via MQTT. Node-RED is used for data visualization and control. Secure communication is enabled with SSL, and HiveMQ Cloud serves as the MQTT broker. Includes setup for Raspberry Pi, ESP32, and Node-RED.
-# IoT Sensor Hub with ESP32, Node-RED, and MQTT on Raspberry Pi
+# Publish & subscribe for MQTTBroker (HiveMQ) using ESP32, Node-RED, on Raspberry Pi
 
 ## Description
 This project demonstrates the integration of an ESP32 microcontroller with a Raspberry Pi using MQTT to publish sensor data, which is processed and visualized in Node-RED. The ESP32 connects to HiveMQ Cloud for MQTT communication over SSL, ensuring secure data transfer.
