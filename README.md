@@ -55,7 +55,7 @@ How It Works
 
 MQTT TOPICS
   -Publish: sensor/data(used to send sensor data from ESP32
-  -Subscribe: testTopic(used to receive control messages fro realys)
+  -Subscribe: testTopic(used to receive control messages for realys)
 
 Secure Communication
 
