@@ -1,0 +1,251 @@
+[
+    {
+        "id": "fd8bb986c5cff482",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "d4c0dfcc3503296d",
+        "type": "ui_gauge",
+        "z": "fd8bb986c5cff482",
+        "name": "temperature",
+        "group": "d731846ef772f3d5",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "temprature",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1210,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "008668bb2a99830a",
+        "type": "function",
+        "z": "fd8bb986c5cff482",
+        "name": "recieve and extract the data",
+        "func": "// Check if the payload and sensor object exist\nif (msg.payload && msg.payload.sensor) {\n    var humidity = msg.payload.sensor.humidity;\n    var temperature = msg.payload.sensor.temperature;\n\n    // Output as two separate messages for different gauges\n    return [{ payload: humidity }, { payload: temperature }];\n} else {\n    // Log an error if the structure is incorrect\n    node.error(\"Sensor data not found in payload\", msg);\n    return null;\n}\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 400,
+        "wires": [
+            [
+                "d4c0dfcc3503296d"
+            ],
+            [
+                "e3adeaee57477f7c"
+            ]
+        ]
+    },
+    {
+        "id": "c48e0d082e33e9a8",
+        "type": "mqtt in",
+        "z": "fd8bb986c5cff482",
+        "name": "",
+        "topic": "sensor/data",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 490,
+        "y": 400,
+        "wires": [
+            [
+                "2de4b3691c289dba"
+            ]
+        ]
+    },
+    {
+        "id": "2de4b3691c289dba",
+        "type": "json",
+        "z": "fd8bb986c5cff482",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 670,
+        "y": 400,
+        "wires": [
+            [
+                "008668bb2a99830a"
+            ]
+        ]
+    },
+    {
+        "id": "e3adeaee57477f7c",
+        "type": "ui_gauge",
+        "z": "fd8bb986c5cff482",
+        "name": "humidity",
+        "group": "d731846ef772f3d5",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "humidity",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1220,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "9a109fed14e60e50",
+        "type": "mqtt out",
+        "z": "fd8bb986c5cff482",
+        "name": "",
+        "topic": "testTopic",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "",
+        "x": 1060,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "813cf268f3b3b6b4",
+        "type": "ui_switch",
+        "z": "fd8bb986c5cff482",
+        "name": "relay1",
+        "label": "relay1",
+        "tooltip": "",
+        "group": "d731846ef772f3d5",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": "false",
+        "topic": "relay1",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 630,
+        "y": 580,
+        "wires": [
+            [
+                "750d9501d77f53a2"
+            ]
+        ]
+    },
+    {
+        "id": "53ac3977ee4634db",
+        "type": "ui_switch",
+        "z": "fd8bb986c5cff482",
+        "name": "realy2",
+        "label": "relay2",
+        "tooltip": "",
+        "group": "d731846ef772f3d5",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": "false",
+        "topic": "relay2",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 630,
+        "y": 660,
+        "wires": [
+            [
+                "750d9501d77f53a2"
+            ]
+        ]
+    },
+    {
+        "id": "750d9501d77f53a2",
+        "type": "function",
+        "z": "fd8bb986c5cff482",
+        "name": "function 1",
+        "func": "// Retrieve current states of relay1 and relay2 from context or default to 0\nvar relay1 = context.get('relay1') || 0;\nvar relay2 = context.get('relay2') || 0;\n\nnode.warn(\"Incoming topic: \" + msg.topic);\nnode.warn(\"Incoming payload: \" + msg.payload);\n\nif (msg.topic === \"relay1\") {\n    relay1 = parseInt(msg.payload);  // Ensure payload is an integer\n    context.set('relay1', relay1);    // Store the state in context\n}\n\nif (msg.topic === \"relay2\") {\n    relay2 = parseInt(msg.payload);  // Ensure payload is an integer\n    context.set('relay2', relay2);   // Store the state in context\n}\n\n\nvar payload = {\n    \"relay\": {\n        \"relay1\": relay1,\n        \"relay2\": relay2\n    }\n};\nmsg.payload = JSON.stringify(payload);\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 620,
+        "wires": [
+            [
+                "9a109fed14e60e50"
+            ]
+        ]
+    },
+    {
+        "id": "d731846ef772f3d5",
+        "type": "ui_group",
+        "name": "temprature guage",
+        "tab": "39ca8be73bb0a519",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "39ca8be73bb0a519",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
