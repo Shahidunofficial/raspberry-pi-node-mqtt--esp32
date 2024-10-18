@@ -1,0 +1,264 @@
+[
+    {
+        "id": "d696bb610b1e8da8",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "60eda677216161c5",
+        "type": "ui_gauge",
+        "z": "d696bb610b1e8da8",
+        "name": "temperature",
+        "group": "491289c9e87f577c",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "temprature",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 850,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "8bda20236de8763a",
+        "type": "function",
+        "z": "d696bb610b1e8da8",
+        "name": "recieve and extract the data",
+        "func": "// Check if the 'sensor' object exists in the payload\nif (msg.payload.sensor) {\n    var humidity = msg.payload.sensor.humidity;\n    var temperature = msg.payload.sensor.temperature;\n\n    // Create two separate messages for the gauges\n    var tempMsg = { payload: temperature };\n    var humMsg = { payload: humidity };\n\n    // Create the response message for the HTTP Response node\n    var respMsg = { payload: \"Data received and processed successfully.\", res: msg.res };\n\n    // Return messages: [Temperature Gauge, Humidity Gauge, HTTP Response]\n    return [tempMsg, humMsg, respMsg];\n} else {\n    // Log an error and send an error response if 'sensor' data is missing\n    node.error(\"Sensor data not found in payload\", msg);\n\n    // Error response message for the HTTP Response node\n    var errorResp = { payload: \"Error: Sensor data not found.\", res: msg.res };\n\n    // Return null for the gauges and send the error response to the HTTP Response node\n    return [null, null, errorResp];\n}\n",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 140,
+        "wires": [
+            [
+                "60eda677216161c5"
+            ],
+            [
+                "cc4d63df099f197b"
+            ],
+            [
+                "328bef87a61e9a04"
+            ]
+        ]
+    },
+    {
+        "id": "c24c42ff74f9d25d",
+        "type": "json",
+        "z": "d696bb610b1e8da8",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 250,
+        "y": 140,
+        "wires": [
+            [
+                "8bda20236de8763a"
+            ]
+        ]
+    },
+    {
+        "id": "cc4d63df099f197b",
+        "type": "ui_gauge",
+        "z": "d696bb610b1e8da8",
+        "name": "humidity",
+        "group": "491289c9e87f577c",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "humidity",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 840,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "3be6df423c3f73f5",
+        "type": "ui_switch",
+        "z": "d696bb610b1e8da8",
+        "name": "relay1",
+        "label": "relay1",
+        "tooltip": "",
+        "group": "491289c9e87f577c",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": "false",
+        "topic": "relay1",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 210,
+        "y": 320,
+        "wires": [
+            [
+                "9912295941c4e082"
+            ]
+        ]
+    },
+    {
+        "id": "a497fe6790f9f221",
+        "type": "ui_switch",
+        "z": "d696bb610b1e8da8",
+        "name": "realy2",
+        "label": "relay2",
+        "tooltip": "",
+        "group": "491289c9e87f577c",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": "false",
+        "topic": "relay2",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 190,
+        "y": 400,
+        "wires": [
+            [
+                "9912295941c4e082"
+            ]
+        ]
+    },
+    {
+        "id": "9912295941c4e082",
+        "type": "function",
+        "z": "d696bb610b1e8da8",
+        "name": "function 2",
+        "func": "// Initialize the relay data object\nvar relayData = {\n    relay: {\n        relay1: 0, // Default value\n        relay2: 0  // Default value\n    }\n};\n\n// Check which relay was triggered and update its value\nif (msg.topic === 'relay1') {\n    relayData.relay.relay1 = msg.payload;  // Set relay1 state based on button press\n}\nif (msg.topic === 'relay2') {\n    relayData.relay.relay2 = msg.payload;  // Set relay2 state based on button press\n}\n\n// Set the payload for the HTTP POST request\nmsg.payload = relayData;\n\n// Return the modified message\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 360,
+        "wires": [
+            [
+                "2121015878af716f"
+            ]
+        ]
+    },
+    {
+        "id": "31d72fb4c9096e62",
+        "type": "http in",
+        "z": "d696bb610b1e8da8",
+        "name": "sensor",
+        "url": "/sensor-data",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 140,
+        "wires": [
+            [
+                "c24c42ff74f9d25d"
+            ]
+        ]
+    },
+    {
+        "id": "328bef87a61e9a04",
+        "type": "http response",
+        "z": "d696bb610b1e8da8",
+        "name": "responseMsg",
+        "statusCode": "200",
+        "headers": {},
+        "x": 860,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "2121015878af716f",
+        "type": "http request",
+        "z": "d696bb610b1e8da8",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://192.168.43.163/relay-data",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 730,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "491289c9e87f577c",
+        "type": "ui_group",
+        "name": "Group 1",
+        "tab": "5b31bf263c40972c",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "5b31bf263c40972c",
+        "type": "ui_tab",
+        "name": "Tab 1",
+        "icon": "dashboard",
+        "order": 1
+    }
+]
