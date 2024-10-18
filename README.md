@@ -3,7 +3,7 @@ An IoT demo project using ESP32 to send sensor data (humidity, temperature) to a
 # Publish & subscribe for MQTTBroker (HiveMQ) using ESP32, Node-RED, on Raspberry Pi
 
 ## Description
-This project demonstrates the integration of an ESP32 microcontroller with a Raspberry Pi using MQTT to publish sensor data, which is processed and visualized in Node-RED. The ESP32 connects to HiveMQ Cloud for MQTT communication over SSL, ensuring secure data transfer.
+This project demonstrates the integration of an ESP32 microcontroller with a Raspberry Pi using MQTT to publish sensor data, which is processed and visualized in Node-RED. The ESP32 connects to HiveMQ Cloud for MQTT communication over SSL, ensuring secure data transfer.  additionally we have done the same process using http protocol.
 
 ## Features
 - ESP32 as an IoT sensor node.
